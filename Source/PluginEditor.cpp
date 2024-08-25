@@ -44,5 +44,6 @@ void ClipperAudioProcessorEditor::resized()
     // subcomponents in your editor..
 
     auto bounds = getLocalBounds();
+
     knob.setBounds(0, 0, bounds.getHeight(), bounds.getWidth());
 }
