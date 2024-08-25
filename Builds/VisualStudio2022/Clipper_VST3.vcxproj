@@ -109,7 +109,8 @@ if not exist &quot;$(OutDir)\\Clipper.vst3\Contents\x86_64-win\&quot; del /s /q 
       <Command>copy /Y &quot;$(OutDir)\Clipper.dll&quot; &quot;$(OutDir)\Clipper.vst3\Contents\x86_64-win\Clipper.vst3&quot;
 del /s /q &quot;$(OutDir)/Clipper.vst3\Contents\moduleinfo.json&quot;
 if not exist &quot;$(OutDir)/Clipper.vst3\Contents\Resources\&quot; del /s /q &quot;$(OutDir)/Clipper.vst3\Contents\Resources&quot; &amp;&amp; mkdir &quot;$(OutDir)/Clipper.vst3\Contents\Resources&quot;
-&quot;$(SolutionDir)$(Platform)\$(Configuration)\VST3 Manifest Helper\juce_vst3_helper.exe&quot; -create -version &quot;1.0.0&quot; -path &quot;$(OutDir)/Clipper.vst3&quot; -output &quot;$(OutDir)/Clipper.vst3\Contents\Resources\moduleinfo.json&quot;</Command>
+&quot;$(SolutionDir)$(Platform)\$(Configuration)\VST3 Manifest Helper\juce_vst3_helper.exe&quot; -create -version &quot;1.0.0&quot; -path &quot;$(OutDir)/Clipper.vst3&quot; -output &quot;$(OutDir)/Clipper.vst3\Contents\Resources\moduleinfo.json&quot;
+xcopy /E /H /K /R /Y /I &quot;$(OutDir)\Clipper.vst3&quot; &quot;%CommonProgramW6432%\VST3\Clipper.vst3\&quot;</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
