@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio Version 17
+
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clipper - VST3", "Clipper_VST3.vcxproj", "{193EBFFD-DC22-869B-638F-835F32B55080}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F915CBC1-B377-1FB0-C484-795F23E20C96} = {F915CBC1-B377-1FB0-C484-795F23E20C96}
+		{86BE2BCF-C75C-FC59-8DF6-9E1DE3D4A2B4} = {86BE2BCF-C75C-FC59-8DF6-9E1DE3D4A2B4}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clipper - Shared Code", "Clipper_SharedCode.vcxproj", "{F915CBC1-B377-1FB0-C484-795F23E20C96}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clipper - VST3 Manifest Helper", "Clipper_VST3ManifestHelper.vcxproj", "{86BE2BCF-C75C-FC59-8DF6-9E1DE3D4A2B4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{193EBFFD-DC22-869B-638F-835F32B55080}.Debug|x64.ActiveCfg = Debug|x64
+		{193EBFFD-DC22-869B-638F-835F32B55080}.Debug|x64.Build.0 = Debug|x64
+		{193EBFFD-DC22-869B-638F-835F32B55080}.Release|x64.ActiveCfg = Release|x64
+		{193EBFFD-DC22-869B-638F-835F32B55080}.Release|x64.Build.0 = Release|x64
+		{F915CBC1-B377-1FB0-C484-795F23E20C96}.Debug|x64.ActiveCfg = Debug|x64
+		{F915CBC1-B377-1FB0-C484-795F23E20C96}.Debug|x64.Build.0 = Debug|x64
+		{F915CBC1-B377-1FB0-C484-795F23E20C96}.Release|x64.ActiveCfg = Release|x64
+		{F915CBC1-B377-1FB0-C484-795F23E20C96}.Release|x64.Build.0 = Release|x64
+		{86BE2BCF-C75C-FC59-8DF6-9E1DE3D4A2B4}.Debug|x64.ActiveCfg = Debug|x64
+		{86BE2BCF-C75C-FC59-8DF6-9E1DE3D4A2B4}.Debug|x64.Build.0 = Debug|x64
+		{86BE2BCF-C75C-FC59-8DF6-9E1DE3D4A2B4}.Release|x64.ActiveCfg = Release|x64
+		{86BE2BCF-C75C-FC59-8DF6-9E1DE3D4A2B4}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
