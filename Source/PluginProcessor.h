@@ -54,7 +54,7 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
     juce::dsp::WaveShaper<float> clipper;
-    juce::dsp::Gain<float> gain;
+    juce::dsp::Gain<float> gain, hardGain;
 
     juce::AudioProcessorValueTreeState apvts{ *this,nullptr, "ValueTree", setParameters()};
 

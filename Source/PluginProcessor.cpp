@@ -108,6 +108,7 @@ void ClipperAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBloc
 
     clipper.prepare(spec);
     gain.prepare(spec);
+    hardGain.prepare(spec);
 }
 
 void ClipperAudioProcessor::releaseResources()
@@ -116,6 +117,7 @@ void ClipperAudioProcessor::releaseResources()
     // spare memory, etc.
     clipper.reset();
     gain.reset();
+    hardGain.reset();
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -159,12 +161,25 @@ void ClipperAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    gain.setGainDecibels(*apvts.getRawParameterValue("THRESHOLD"));
+    juce::AudioSampleBuffer alt(buffer);
 
-    juce::dsp::AudioBlock<float> block(buffer);
+    float mainGainVal = *apvts.getRawParameterValue("GAIN");
+    float hardGainVal = *apvts.getRawParameterValue("HARDCLIP");
 
-    gain.process(juce::dsp::ProcessContextReplacing(block));
-    clipper.process(juce::dsp::ProcessContextReplacing(block));
+    gain.setGainDecibels(mainGainVal);
+    hardGain.setGainDecibels(hardGainVal);
+
+    juce::dsp::AudioBlock<float> main(buffer);
+    //juce::dsp::AudioBlock<float> altBlock(alt);
+
+    //hardGain.process(juce::dsp::ProcessContextReplacing(altBlock));
+    alt.applyGain(hardGainVal);
+    buffer.addFrom(0, 0, alt, 0, 0, buffer.getNumSamples());
+    buffer.addFrom(1, 0, alt, 1, 0, buffer.getNumSamples());
+
+    gain.process(juce::dsp::ProcessContextReplacing(main));
+    clipper.process(juce::dsp::ProcessContextReplacing(main));
+
     
 }
 
@@ -205,7 +220,9 @@ juce::AudioProcessorValueTreeState::ParameterLayout ClipperAudioProcessor::setPa
     juce::AudioProcessorValueTreeState::ParameterLayout layout;
 
     layout.add(
-        std::make_unique<juce::AudioParameterFloat>("THRESHOLD", "threshold", 0, 42, 1)
+        std::make_unique<juce::AudioParameterFloat>("GAIN", "Gain", 0, 20, 1),
+        std::make_unique<juce::AudioParameterFloat>("HARDCLIP", "Hard Clip", -60, -10, -60)
+
     );
     return layout;
 }

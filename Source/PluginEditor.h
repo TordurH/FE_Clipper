@@ -24,14 +24,14 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 
-    juce::Slider knob;
+    juce::Slider knob, hardclip;
 
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     ClipperAudioProcessor& audioProcessor;
 
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> knobAttachment;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> knobAttachment, hardclipAttachment;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ClipperAudioProcessorEditor)
 };
