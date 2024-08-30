@@ -23,9 +23,16 @@ ClipperAudioProcessor::ClipperAudioProcessor()
 #endif
 {
 
-    clipper.functionToUse = [](float x) {
+    softClipper.functionToUse = [](float x) {
 
         return std::tanh(x);
+        };
+
+    hardClipper.functionToUse = [](float x) {
+
+        
+
+        return juce::jlimit(-0.5f, 0.5f, x);
         };
 }
 
@@ -106,7 +113,8 @@ void ClipperAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBloc
     spec.sampleRate = sampleRate;
     spec.numChannels = getTotalNumInputChannels();
 
-    clipper.prepare(spec);
+    softClipper.prepare(spec);
+    hardClipper.prepare(spec);
     gain.prepare(spec);
     hardGain.prepare(spec);
 }
@@ -115,7 +123,8 @@ void ClipperAudioProcessor::releaseResources()
 {
     // When playback stops, you can use this as an opportunity to free up any
     // spare memory, etc.
-    clipper.reset();
+    softClipper.reset();
+    hardClipper.reset();
     gain.reset();
     hardGain.reset();
 }
@@ -169,16 +178,20 @@ void ClipperAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
     gain.setGainDecibels(mainGainVal);
     hardGain.setGainDecibels(hardGainVal);
 
-    juce::dsp::AudioBlock<float> main(buffer);
-    //juce::dsp::AudioBlock<float> altBlock(alt);
+    juce::dsp::AudioBlock<float> mainBlock(buffer);
+    juce::dsp::AudioBlock<float> altBlock(alt);
 
-    //hardGain.process(juce::dsp::ProcessContextReplacing(altBlock));
-    alt.applyGain(hardGainVal);
-    buffer.addFrom(0, 0, alt, 0, 0, buffer.getNumSamples());
-    buffer.addFrom(1, 0, alt, 1, 0, buffer.getNumSamples());
+    hardGain.process(juce::dsp::ProcessContextReplacing(altBlock));
+    hardClipper.process(juce::dsp::ProcessContextReplacing(altBlock));
+    
+    buffer.addFrom(0, 0, alt, 0, 0,buffer.getNumSamples());
 
-    gain.process(juce::dsp::ProcessContextReplacing(main));
-    clipper.process(juce::dsp::ProcessContextReplacing(main));
+    
+    if (buffer.getNumChannels() == 2)
+        buffer.addFrom(1, 0, alt, 1, 0, buffer.getNumSamples());
+
+    gain.process(juce::dsp::ProcessContextReplacing(mainBlock));
+    softClipper.process(juce::dsp::ProcessContextReplacing(mainBlock));
 
     
 }
